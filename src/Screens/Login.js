@@ -5,7 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Image,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -20,10 +19,11 @@ const Login = () => {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../../assets/Profile.png")}
-        style={styles.profilePic}
-      />
+      {/* Friendly Welcome Message */}
+      <Text style={styles.title}>Welcome! 🚀</Text>
+      <Text style={styles.subtitle}>Let's sign you in to continue.</Text>
+
+      {/* Username Input */}
       <TextInput
         style={styles.input}
         placeholder="Username"
@@ -31,6 +31,8 @@ const Login = () => {
         value={username}
         onChangeText={setUsername}
       />
+
+      {/* Password Input */}
       <TextInput
         style={styles.input}
         placeholder="Password"
@@ -39,8 +41,12 @@ const Login = () => {
         onChangeText={setPassword}
         secureTextEntry
       />
+
+      {/* Login Button */}
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
+        <LinearGradient colors={["#FFDD44", "#FDCB00"]} style={styles.buttonGradient}>
+          <Text style={styles.buttonText}>Login</Text>
+        </LinearGradient>
       </TouchableOpacity>
     </View>
   );
@@ -52,47 +58,54 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#78B7D0", // Updated background color
+    backgroundColor: "#FFF8E1", // Soft warm background
   },
-  profilePic: {
-    width: 200,
-    height: 200,
-    borderRadius: 50,
-    marginBottom: 10,
-  },
+
   title: {
-    fontSize: 30,
+    fontSize: 26,
     fontWeight: "bold",
-    color: "#fff", // White text for contrast
-    marginBottom: 30,
-    textAlign: "center",
+    color: "#222",
+    marginBottom: 5,
   },
-  input: {
-    height: 50,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    backgroundColor: "#fff",
-    marginBottom: 20,
-    paddingHorizontal: 15,
-    borderRadius: 25,
-    width: "80%",
+
+  subtitle: {
     fontSize: 16,
+    color: "#666",
+    marginBottom: 30,
   },
-  button: {
-    backgroundColor: "#FFD700",
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    borderRadius: 25,
+
+  input: {
+    height: 55,
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+    backgroundColor: "#FFF",
+    marginBottom: 15,
+    paddingHorizontal: 15,
+    borderRadius: 15,
+    width: "90%",
+    fontSize: 16,
     shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 2, height: 2 },
-    shadowRadius: 5,
-    elevation: 5,
-    width: "80%",
-    alignItems: "center",
+    shadowOpacity: 0.08,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 6,
+    elevation: 3,
   },
+
+  button: {
+    width: "90%",
+    borderRadius: 15,
+    overflow: "hidden",
+    marginTop: 20,
+  },
+
+  buttonGradient: {
+    paddingVertical: 18,
+    alignItems: "center",
+    borderRadius: 15,
+  },
+
   buttonText: {
-    color: "#1E90FF",
+    color: "#222",
     fontSize: 18,
     fontWeight: "bold",
   },
