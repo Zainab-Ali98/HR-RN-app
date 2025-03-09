@@ -14,7 +14,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    // Handle login logic here
     console.log("Username:", username);
     console.log("Password:", password);
   };
@@ -53,7 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#ADD8E6", // Light blue background
+    backgroundColor: "#78B7D0", // Updated background color
   },
   profilePic: {
     width: 200,
@@ -72,15 +71,15 @@ const styles = StyleSheet.create({
     height: 50,
     borderColor: "#ccc",
     borderWidth: 1,
-    backgroundColor: "#fff", // White background for input fields
+    backgroundColor: "#fff",
     marginBottom: 20,
     paddingHorizontal: 15,
-    borderRadius: 25, // Rounded corners
+    borderRadius: 25,
     width: "80%",
     fontSize: 16,
   },
   button: {
-    backgroundColor: "#FFD700", // Yellow button
+    backgroundColor: "#FFD700",
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 25,
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    color: "#1E90FF", // Blue text for contrast
+    color: "#1E90FF",
     fontSize: 18,
     fontWeight: "bold",
   },
