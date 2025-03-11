@@ -56,7 +56,7 @@ const MainNavigation = () => {
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Profile" component={Profile} />
       <Tab.Screen name="Login" component={Login} />
-      {/* <Tab.Screen name="WelcomePage" component={WelcomePage} /> */}
+      <Tab.Screen name="WelcomePage" component={WelcomePage} />
     </Tab.Navigator>
   );
 };

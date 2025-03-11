@@ -13,7 +13,7 @@ const AuthNavigation = () => {
         tabBarStyle: { backgroundColor: "#e6f7ff" },
       }}
     >
-      <Stack.Screen name="Profile" component={Login} />
+      <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   );
 };

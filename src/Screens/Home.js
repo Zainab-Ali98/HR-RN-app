@@ -1,122 +1,224 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import DropDownPicker from "react-native-dropdown-picker";
+import React, { useState } from "react";
+import {
+    StyleSheet,
+    Text,
+    View,
+    SafeAreaView,
+    TextInput,
+    FlatList,
+    TouchableOpacity,
+    Image,
+    Dimensions,
+    ScrollView,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from 'expo-linear-gradient';
+import { FontAwesome5 } from '@expo/vector-icons';
+
+const { width } = Dimensions.get('window'); // Get screen width
 
 const Home = () => {
-  const [openDepartment, setOpenDepartment] = useState(false);
-  const [selectedDepartment, setSelectedDepartment] = useState(null);
-  const [departments, setDepartments] = useState([
-    { label: "IT", value: "IT" },
-    { label: "Finance", value: "Finance" },
-    { label: "Management", value: "Management" },
-  ]);
+    const navigation = useNavigation();
+    const [selectedDepartment, setSelectedDepartment] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
 
-  const [openCourse, setOpenCourse] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState(null);
-  const [courses, setCourses] = useState([
-    { label: "IT - Course 1", value: "IT - course1", department: "IT" },
-    { label: "IT - Course 2", value: "IT - course2", department: "IT" },
-    { label: "Finance - Course 1", value: "Finance - course1", department: "Finance" },
-    { label: "Finance - Course 2", value: "Finance - course2", department: "Finance" },
-    { label: "Management - Course 1", value: "Management - course1", department: "Management" },
-    { label: "Management - Course 2", value: "Management - course2", department: "Management" },
-  ]);
-  
-  const [filteredCourses, setFilteredCourses] = useState([]);
+    const [departments] = useState([
+        { name: "IT", image: "https://cdn-icons-png.flaticon.com/512/2721/2721293.png" },
+        { name: "Finance", image: "https://cdn-icons-png.flaticon.com/512/2332/2332289.png" },
+        { name: "Management", image: "https://cdn-icons-png.flaticon.com/512/3462/3462117.png" },
+    ]);
 
-  useEffect(() => {
-    if (selectedDepartment) {
-      setFilteredCourses(courses.filter(course => course.department === selectedDepartment));
-    } else {
-      setFilteredCourses([]);
-    }
-  }, [selectedDepartment]);
+    const [courses] = useState([
+        {
+            name: "Web Development",
+            department: "IT",
+            image: "https://cdn-icons-png.flaticon.com/512/1055/1055666.png",
+            description: "Learn HTML, CSS, and JavaScript to build modern websites.",
+            category: "Programming",
+            duration: "8",
+        },
+        {
+            name: "Cybersecurity",
+            department: "IT",
+            image: "https://cdn-icons-png.flaticon.com/512/3067/3067556.png",
+            description: "Become an expert in online security and ethical hacking.",
+            category: "Security",
+            duration: "12",
+        },
+        {
+            name: "Accounting",
+            department: "Finance",
+            image: "https://cdn-icons-png.flaticon.com/512/2581/2581987.png",
+            description: "Master financial statements and budgeting strategies.",
+            category: "Finance",
+            duration: "6",
+        },
+    ]);
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Course Selection</Text>
+    const searchedCourses = courses.filter(
+        (course) =>
+            course.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+            (selectedDepartment === "" || course.department === selectedDepartment)
+    );
 
-      <DropDownPicker
-        open={openDepartment}
-        value={selectedDepartment}
-        items={departments}
-        setOpen={setOpenDepartment}
-        setValue={setSelectedDepartment}
-        setItems={setDepartments}
-        placeholder="Select Department"
-        style={styles.input}
-        dropDownContainerStyle={styles.dropDownContainer}
-      />
+    return (
+        <LinearGradient colors={['black', 'grey']} style={styles.container}>
+            <SafeAreaView>
+               
+                <ScrollView contentContainerStyle={styles.scrollView}>
+                    <View style={styles.header}>
+                        <Text style={styles.headerTitle}>Find Your Perfect Course</Text>
+                        <FontAwesome5 name="graduation-cap" size={24} color="#fff" />
+                    </View>
 
-      <DropDownPicker
-        open={openCourse}
-        value={selectedCourse}
-        items={filteredCourses.map(course => ({ label: course.label, value: course.value }))}
-        setOpen={setOpenCourse}
-        setValue={setSelectedCourse}
-        setItems={setFilteredCourses}
-        placeholder="Select Course"
-        style={styles.input}
-        dropDownContainerStyle={styles.dropDownContainer}
-        disabled={!selectedDepartment}
-      />
+                    <TextInput
+                        style={styles.searchBar}
+                        placeholder="🔍 Search for courses..."
+                        placeholderTextColor="#ddd"
+                        value={searchQuery}
+                        onChangeText={setSearchQuery}
+                    />
 
-      <TouchableOpacity style={styles.button} disabled={!selectedCourse}>
-        <Text style={styles.buttonText}>Submit</Text>
-      </TouchableOpacity>
-    </View>
-  );
+                    <Text style={styles.sectionTitle}>Explore Departments</Text>
+                    <FlatList
+                        data={departments}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={styles.departmentList}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                style={[
+                                    styles.departmentItem,
+                                    selectedDepartment === item.name && styles.departmentSelected,
+                                ]}
+                                onPress={() =>
+                                    setSelectedDepartment(selectedDepartment === item.name ? "" : item.name)
+                                }
+                            >
+                                <Image source={{ uri: item.image }} style={styles.departmentImage} />
+                                <Text style={styles.departmentText}>{item.name}</Text>
+                            </TouchableOpacity>
+                        )}
+                        keyExtractor={(item) => item.name}
+                    />
+
+                    <Text style={styles.sectionTitle}>Available Courses</Text>
+                    <FlatList
+                        data={searchedCourses}
+                        numColumns={2}
+                        scrollEnabled={false} 
+                        contentContainerStyle={styles.courseList}
+                        columnWrapperStyle={styles.courseRow}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                style={styles.courseCard}
+                                onPress={() => navigation.navigate("CourseDetails", { course: item })}
+                            >
+                                <Image source={{ uri: item.image }} style={styles.courseImage} />
+                                <Text style={styles.courseName}>{item.name}</Text>
+                            </TouchableOpacity>
+                        )}
+                        keyExtractor={(item) => item.name}
+                    />
+                </ScrollView>
+            </SafeAreaView>
+        </LinearGradient>
+    );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: "#78B7D0",
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#fff",
-    marginBottom: 30,
-    textAlign: "center",
-  },
-  input: {
-    height: 50,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    backgroundColor: "#fff",
-    marginBottom: 20,
-    paddingHorizontal: 15,
-    borderRadius: 25,
-    width: "80%",
-    fontSize: 16,
-  },
-  dropDownContainer: {
-    borderColor: "#ccc",
-    backgroundColor: "#fff",
-    width: "80%",
-  },
-  button: {
-    backgroundColor: "#FFD700",
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    borderRadius: 25,
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 2, height: 2 },
-    shadowRadius: 5,
-    elevation: 5,
-    width: "80%",
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#1E90FF",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});
-
 export default Home;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    scrollView: {
+        paddingBottom: 30, 
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        paddingTop: 20,
+        marginBottom: 20,
+    },
+    headerTitle: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        color: '#fff',
+    },
+    searchBar: {
+        height: 50,
+        borderColor: 'rgba(255, 255, 255, 0.3)',
+        borderWidth: 1,
+        paddingHorizontal: 20,
+        borderRadius: 30,
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        fontSize: 16,
+        color: '#fff',
+        marginBottom: 30,
+        marginHorizontal: 20,
+    },
+    sectionTitle: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#fff',
+        marginBottom: 20,
+        paddingHorizontal: 20,
+    },
+    departmentList: {
+        paddingBottom: 20,
+        paddingHorizontal: 20,
+    },
+    departmentItem: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        borderRadius: 20,
+        padding: 15,
+        width: 120,
+        height: 120,
+        marginRight: 15,
+    },
+    departmentSelected: {
+        backgroundColor: '#FF8C42',
+    },
+    departmentImage: {
+        width: 60,
+        height: 60,
+        marginBottom: 8,
+    },
+    departmentText: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#fff',
+        textAlign: 'center',
+    },
+    courseList: {
+        paddingBottom: 30,
+        paddingHorizontal: 20,
+    },
+    courseRow: {
+        justifyContent: 'space-between',
+    },
+    courseCard: {
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+        borderRadius: 15,
+        padding: 20,
+        marginBottom: 15,
+        width: (width - 60) / 2, 
+        alignItems: 'center',
+    },
+    courseImage: {
+        width: 80,
+        height: 80,
+        marginBottom: 10,
+    },
+    courseName: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#fff',
+        textAlign: 'center',
+    },
+});

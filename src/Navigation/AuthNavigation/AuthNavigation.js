@@ -3,7 +3,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "../../Screens/Login";
 import WelcomePage from "../../Screens/WelcomePage";
-// import Home from "../../Screens/Home";
+import Home from "../../Screens/Home";
 
 const Stack = createNativeStackNavigator();
 const AuthNavigation = () => {
@@ -17,6 +17,7 @@ const AuthNavigation = () => {
     >
       <Stack.Screen name="WelcomePage" component={WelcomePage} />
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Home" component={Home} />
     </Stack.Navigator>
   );
 };

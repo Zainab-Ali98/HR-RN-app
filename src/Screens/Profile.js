@@ -5,32 +5,38 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 const Profile = () => {
   return (
     <View style={styles.container}>
-      <View style={{ position: "absolute", top: 60, right: 20 }}>
-        <TouchableOpacity
-          onPress={() => {
-            // deleteToken();
-            setIsAuth(false);
-          }}
-        >
-          <MaterialIcons name="logout" size={28} color="red" />
+      <TouchableOpacity
+        style={styles.logoutButton}
+        onPress={() => {
+          console.log("Logout pressed");
+        }}
+      >
+        <MaterialIcons name="logout" size={24} color="#FFF" />
+      </TouchableOpacity>
+
+      <View style={styles.profileCard}>
+        <Image
+          source={
+            {
+              // uri: "https://i.imgur.com/8Km9tLL.png",
+            }
+          }
+          style={styles.profileImage}
+        />
+
+        <Text style={styles.name}>Zainab Haji</Text>
+
+        <Text style={styles.title}>Software Engineer</Text>
+
+        <Text style={styles.certifications}>
+          Certifications: AWS Certified Developer, Scrum Master, React Native
+          Expert
+        </Text>
+
+        <TouchableOpacity style={styles.contactButton}>
+          <Text style={styles.contactButtonText}>Contact</Text>
         </TouchableOpacity>
       </View>
-      {/* Employee Name */}
-      <Text style={styles.title}>Zainab Haji</Text>
-
-      {/* Employee Title */}
-      <Text style={styles.subtitle}>Software Engineer</Text>
-
-      {/* Certifications */}
-      <Text style={styles.certifications}>
-        Certifications: AWS Certified Developer, Scrum Master, React Native
-        Expert
-      </Text>
-
-      {/* Button */}
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Contact</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -38,47 +44,76 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#1E1E1E",
+    paddingHorizontal: 20,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
-    backgroundColor: "#78B7D0", // Updated background color
   },
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#fff", // White text for contrast
-    marginBottom: 10,
-    textAlign: "center",
-  },
-  subtitle: {
-    fontSize: 20,
-    color: "#fff",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  certifications: {
-    fontSize: 16,
-    color: "#fff",
-    marginBottom: 30,
-    textAlign: "center",
-    paddingHorizontal: 20,
-  },
-  button: {
-    backgroundColor: "#FFD700",
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    borderRadius: 25,
+  logoutButton: {
+    position: "absolute",
+    top: 40,
+    right: 20,
+    backgroundColor: "#FF3B3B",
+    padding: 10,
+    borderRadius: 50,
     shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
-    shadowOffset: { width: 2, height: 2 },
     shadowRadius: 5,
     elevation: 5,
-    width: "80%",
-    alignItems: "center",
   },
-  buttonText: {
-    color: "#1E90FF",
+  profileCard: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 20,
+    paddingVertical: 30,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    width: "90%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 20,
+  },
+  name: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 5,
+  },
+  title: {
     fontSize: 18,
+    color: "#666",
+    marginBottom: 15,
+  },
+  certifications: {
+    fontSize: 14,
+    color: "#888",
+    textAlign: "center",
+    marginBottom: 20,
+    lineHeight: 20,
+  },
+  contactButton: {
+    backgroundColor: "#000",
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 25,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  contactButtonText: {
+    color: "#FFF",
+    fontSize: 16,
     fontWeight: "bold",
   },
 });

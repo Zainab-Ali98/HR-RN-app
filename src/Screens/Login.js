@@ -5,50 +5,70 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons } from "@expo/vector-icons";
 
-const Login = () => {
-  const [username, setUsername] = useState("");
+const Login = ({ navigation }) => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = () => {
-    console.log("Username:", username);
+    console.log("Email:", email);
     console.log("Password:", password);
+    // You can navigate or validate login here
   };
 
   return (
-    <View style={styles.container}>
-      {/* Friendly Welcome Message */}
-      <Text style={styles.title}>Welcome! 🚀</Text>
-      <Text style={styles.subtitle}>Let's sign you in to continue.</Text>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <View style={styles.loginContainer}>
+        {/* Title */}
+        <Text style={styles.title}>Welcome Back! 👋</Text>
+        <Text style={styles.subtitle}>Login in to continue</Text>
 
-      {/* Username Input */}
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        placeholderTextColor="#888"
-        value={username}
-        onChangeText={setUsername}
-      />
+        {/* Email Input */}
+        <View style={styles.inputContainer}>
+          <Ionicons name="mail-outline" size={24} color="#B0B0B0" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your email"
+            placeholderTextColor="#B0B0B0"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+          />
+        </View>
 
-      {/* Password Input */}
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#888"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+        {/* Password Input */}
+        <View style={styles.inputContainer}>
+          <Ionicons name="lock-closed-outline" size={24} color="#B0B0B0" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your password"
+            placeholderTextColor="#B0B0B0"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={!showPassword}
+          />
+          <TouchableOpacity style={styles.eyeIcon} onPress={() => setShowPassword(!showPassword)}>
+            <Ionicons name={showPassword ? "eye-outline" : "eye-off-outline"} size={24} color="#B0B0B0" />
+          </TouchableOpacity>
+        </View>
 
-      {/* Login Button */}
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <LinearGradient colors={["#FFDD44", "#FDCB00"]} style={styles.buttonGradient}>
-          <Text style={styles.buttonText}>Login</Text>
-        </LinearGradient>
-      </TouchableOpacity>
-    </View>
+        {/* Login Button */}
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <LinearGradient colors={["#000", "#333"]} style={styles.buttonGradient}>
+            <Text style={styles.buttonText}>Log In</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -57,55 +77,65 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
-    backgroundColor: "#FFF8E1", // Soft warm background
+    backgroundColor: "#F5F5F5",
   },
-
+  loginContainer: {
+    width: "85%",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 16,
+    padding: 30,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
   title: {
-    fontSize: 26,
+    fontSize: 24,
     fontWeight: "bold",
-    color: "#222",
+    color: "#333",
     marginBottom: 5,
   },
-
   subtitle: {
     fontSize: 16,
     color: "#666",
-    marginBottom: 30,
+    marginBottom: 25,
   },
-
-  input: {
-    height: 55,
-    borderWidth: 1,
-    borderColor: "#E0E0E0",
-    backgroundColor: "#FFF",
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F2F2F2",
+    borderRadius: 12,
     marginBottom: 15,
     paddingHorizontal: 15,
-    borderRadius: 15,
-    width: "90%",
+    width: "100%",
+  },
+  icon: {
+    marginRight: 10,
+  },
+  input: {
+    flex: 1,
+    height: 50,
     fontSize: 16,
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 6,
-    elevation: 3,
+    color: "#333",
   },
-
+  eyeIcon: {
+    padding: 10,
+  },
   button: {
-    width: "90%",
-    borderRadius: 15,
+    width: "100%",
+    borderRadius: 12,
     overflow: "hidden",
-    marginTop: 20,
+    marginTop: 10,
   },
-
   buttonGradient: {
-    paddingVertical: 18,
+    paddingVertical: 15,
     alignItems: "center",
-    borderRadius: 15,
+    borderRadius: 12,
   },
-
   buttonText: {
-    color: "#222",
+    color: "#FFFFFF",
     fontSize: 18,
     fontWeight: "bold",
   },
