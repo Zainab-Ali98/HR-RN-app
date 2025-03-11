@@ -62,67 +62,83 @@ const Home = () => {
     );
 
     return (
-        <LinearGradient colors={['black', 'grey']} style={styles.container}>
-            <SafeAreaView>
-               
-                <ScrollView contentContainerStyle={styles.scrollView}>
-                    <View style={styles.header}>
-                        <Text style={styles.headerTitle}>Find Your Perfect Course</Text>
-                        <FontAwesome5 name="graduation-cap" size={24} color="#fff" />
-                    </View>
+      <LinearGradient colors={["black", "grey"]} style={styles.container}>
+        <SafeAreaView>
+          <ScrollView contentContainerStyle={styles.scrollView}>
+            <View style={styles.header}>
+              <Text style={styles.headerTitle}>Find Your Perfect Course</Text>
+              <FontAwesome5 name="graduation-cap" size={24} color="#fff" />
+            </View>
 
-                    <TextInput
-                        style={styles.searchBar}
-                        placeholder="🔍 Search for courses..."
-                        placeholderTextColor="#ddd"
-                        value={searchQuery}
-                        onChangeText={setSearchQuery}
-                    />
+            <TextInput
+              style={styles.searchBar}
+              placeholder="🔍 Search for courses..."
+              placeholderTextColor="#ddd"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
 
-                    <Text style={styles.sectionTitle}>Explore Departments</Text>
-                    <FlatList
-                        data={departments}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={styles.departmentList}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                                style={[
-                                    styles.departmentItem,
-                                    selectedDepartment === item.name && styles.departmentSelected,
-                                ]}
-                                onPress={() =>
-                                    setSelectedDepartment(selectedDepartment === item.name ? "" : item.name)
-                                }
-                            >
-                                <Image source={{ uri: item.image }} style={styles.departmentImage} />
-                                <Text style={styles.departmentText}>{item.name}</Text>
-                            </TouchableOpacity>
-                        )}
-                        keyExtractor={(item) => item.name}
-                    />
+            <Text style={styles.sectionTitle}>Explore Departments</Text>
+            <FlatList
+              data={departments}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.departmentList}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={[
+                    styles.departmentItem,
+                    selectedDepartment === item.name &&
+                      styles.departmentSelected,
+                  ]}
+                  onPress={() =>
+                    setSelectedDepartment(
+                      selectedDepartment === item.name ? "" : item.name
+                    )
+                  }
+                >
+                  <Image
+                    source={{ uri: item.image }}
+                    style={styles.departmentImage}
+                  />
+                  <Text style={styles.departmentText}>{item.name}</Text>
+                </TouchableOpacity>
+              )}
+              keyExtractor={(item) => item.name}
+            />
+            <TouchableOpacity
+              style={styles.certificatesButton}
+              onPress={() => navigation.navigate("Certificates")}
+            >
+              <Text style={styles.buttonText}> View my Certificate</Text>
+            </TouchableOpacity>
 
-                    <Text style={styles.sectionTitle}>Available Courses</Text>
-                    <FlatList
-                        data={searchedCourses}
-                        numColumns={2}
-                        scrollEnabled={false} 
-                        contentContainerStyle={styles.courseList}
-                        columnWrapperStyle={styles.courseRow}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                                style={styles.courseCard}
-                                onPress={() => navigation.navigate("CourseDetails", { course: item })}
-                            >
-                                <Image source={{ uri: item.image }} style={styles.courseImage} />
-                                <Text style={styles.courseName}>{item.name}</Text>
-                            </TouchableOpacity>
-                        )}
-                        keyExtractor={(item) => item.name}
-                    />
-                </ScrollView>
-            </SafeAreaView>
-        </LinearGradient>
+            <Text style={styles.sectionTitle}>Available Courses</Text>
+            <FlatList
+              data={searchedCourses}
+              numColumns={2}
+              scrollEnabled={false}
+              contentContainerStyle={styles.courseList}
+              columnWrapperStyle={styles.courseRow}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.courseCard}
+                  onPress={() =>
+                    navigation.navigate("CourseDetails", { course: item })
+                  }
+                >
+                  <Image
+                    source={{ uri: item.image }}
+                    style={styles.courseImage}
+                  />
+                  <Text style={styles.courseName}>{item.name}</Text>
+                </TouchableOpacity>
+              )}
+              keyExtractor={(item) => item.name}
+            />
+          </ScrollView>
+        </SafeAreaView>
+      </LinearGradient>
     );
 };
 
