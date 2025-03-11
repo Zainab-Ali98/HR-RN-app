@@ -1,63 +1,163 @@
-import { StyleSheet, Text, View } from "react-native";
+// import React from "react";
+// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+// import { createStackNavigator } from "@react-navigation/stack";
+// import { StyleSheet } from "react-native";
+// import AntDesign from "@expo/vector-icons/AntDesign";
+// import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+// import EvilIcons from "@expo/vector-icons/EvilIcons";
+
+// // Import Screens
+// import Home from "../../Screens/Home";
+// import Profile from "../../Screens/Profile";
+// import Login from "../../Screens/Login";
+// import WelcomePage from "../../Screens/WelcomePage";
+// import CourseDetails from "../../Screens/CourseDetails";
+// import HRScreen from "../../Screens/HRScreen";
+
+// const Tab = createBottomTabNavigator();
+// const Stack = createStackNavigator();
+
+
+// const BottomTabNavigator = () => {
+//   return (
+//     <Tab.Navigator screenOptions={{ headerShown: false }}>
+//       <Tab.Screen
+//         name="Home"
+//         component={Home}
+//         options={{
+//           tabBarIcon: ({ color, size }) => (
+//             <AntDesign name="home" size={size} color={color} />
+//           ),
+//           tabBarLabel: "Home",
+//         }}
+//       />
+//       <Tab.Screen
+//         name="Profile"
+//         component={Profile}
+//         options={{
+//           tabBarIcon: ({ color, size }) => (
+//             <EvilIcons name="user" size={size} color={color} />
+//           ),
+//           tabBarLabel: "Profile",
+//         }}
+//       />
+//       <Tab.Screen
+//         name="HR Panel"
+//         component={HRScreen}
+//         options={{
+//           tabBarIcon: ({ color, size }) => (
+//             <MaterialCommunityIcons name="account" size={size} color={color} />
+//           ),
+//           tabBarLabel: "HR",
+//         }}
+//       />
+//     </Tab.Navigator>
+//   );
+// };
+
+
+// const MainNavigation = () => {
+//   return (
+//     <Stack.Navigator screenOptions={{ headerShown: false }}>
+     
+//       <Stack.Screen name="MainTabs" component={BottomTabNavigator} />
+
+      
+//       <Stack.Screen name="Login" component={Login} />
+//       <Stack.Screen name="WelcomePage" component={WelcomePage} />
+//       <Stack.Screen name="CourseDetails" component={CourseDetails} />
+//     </Stack.Navigator>
+//   );
+// };
+
+// export default MainNavigation;
+
+// const styles = StyleSheet.create({});
+
+
+
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
+import { StyleSheet } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
-// import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import HomeNavigation from "../HomeNavigation/HomeNavigation";
-import AuthNavigation from "../AuthNavigation/AuthNavigation";
-import ProfileNavigation from "../ProfileNavigation/ProfileNavigation"; // Add this import statement
+
+// ✅ Import Screens
 import Home from "../../Screens/Home";
 import Profile from "../../Screens/Profile";
 import Login from "../../Screens/Login";
 import WelcomePage from "../../Screens/WelcomePage";
+import CourseDetails from "../../Screens/CourseDetails";
+import HRScreen from "../../Screens/HRScreen"; // ✅ Ensure this file exists
+import HRPanel from "../../Screens/HRPanel";
 
 const Tab = createBottomTabNavigator();
-const MainNavigation = () => {
+const Stack = createStackNavigator();
+
+// ✅ Bottom Tab Navigation
+const BottomTabNavigator = () => {
   return (
-    <Tab.Navigator>
-      {/* //   screenOptions={{
-        headerShadowVisible: true,
-        headerShown: true,
-        tabBarStyle: { backgroundColor: "#e6f7ff" },
-      }}
-    > */}
-      {/* <Tab.Screen
-        name="HomeNavigation"
-        component={HomeNavigation}
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
+      <Tab.Screen
+        name="Home"
+        component={Home}
         options={{
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="home" size={size} color={color} />
           ),
           tabBarLabel: "Home",
         }}
-      /> */}
-      {/* //   <Tab.Screen
-        name="AuthNavigation"
-        component={AuthNavigation}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" size={size} color={color} />
-          ),
-          tabBarLabel: "Account",
-        }}
-      /> */}
-      {/* //   <Tab.Screen
+      />
+      <Tab.Screen
         name="Profile"
-        component={ProfileNavigation}
+        component={Profile}
         options={{
           tabBarIcon: ({ color, size }) => (
             <EvilIcons name="user" size={size} color={color} />
           ),
           tabBarLabel: "Profile",
         }}
-      /> */}
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Profile" component={Profile} />
-      <Tab.Screen name="Login" component={Login} />
-      {/* <Tab.Screen name="WelcomePage" component={WelcomePage} /> */}
+      />
+      <Tab.Screen
+        name="HR Screen"
+        component={HRScreen} // ✅ Make sure HRScreen.js exists
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account" size={size} color={color} />
+          ),
+          tabBarLabel: "HR",
+        }}
+      />
+<Tab.Screen
+        name="HR Panel"
+        component={HRPanel} // ✅ Make sure HRScreen.js exists
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account" size={size} color={color} />
+          ),
+          tabBarLabel: "HR",
+        }}
+      />
+
+
     </Tab.Navigator>
+  );
+};
+
+// ✅ Stack Navigation
+const MainNavigation = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="MainTabs" component={BottomTabNavigator} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="WelcomePage" component={WelcomePage} />
+      <Stack.Screen name="CourseDetails" component={CourseDetails} />
+      <Stack.Screen name="HRPanel" component={HRPanel} />
+      <Stack.Screen name="HRScreen" component={HRScreen} />
+      
+    </Stack.Navigator>
   );
 };
 

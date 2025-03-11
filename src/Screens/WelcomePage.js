@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,24 +8,29 @@ import {
   useColorScheme,
   Linking,
   Modal,
+  Switch,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import * as Animatable from "react-native-animatable";
 
 const WelcomePage = ({ navigation }) => {
   const colorScheme = useColorScheme(); 
-  const [loading, setLoading] = useState(false); // Track if loading screen is active
+  const [loading, setLoading] = useState(false); 
+  const [isDarkMode, setIsDarkMode] = useState(colorScheme === "dark");
+
+  useEffect(() => {
+    setIsDarkMode(colorScheme === "dark");
+  }, [colorScheme]);
 
   const handleLogin = () => {
     navigation.navigate("Login");
   };
 
   const handleSocialClick = async (url) => {
-    setLoading(true); // Show the loading screen
+    setLoading(true); 
 
     setTimeout(() => {
-      setLoading(false); // Hide loading after 2 seconds
+      setLoading(false); 
       Linking.openURL(url);
     }, 2000);
   };
@@ -34,49 +39,79 @@ const WelcomePage = ({ navigation }) => {
     <View
       style={[
         styles.container,
-        { backgroundColor: colorScheme === "dark" ? "#1C1C1C" : "#F5F7FA" },
+        { backgroundColor: isDarkMode ? "#1C1C1C" : "#F5F7FA" },
       ]}
     >
-      {/* Full-Screen Loading Overlay */}
-      <Modal visible={loading} transparent>
-        <View style={styles.loadingContainer}>
-          <Image source={require("../../assets/Darbni.jpg")} style={styles.loadingImage} />
-          <Text style={styles.loadingText}>Loading...</Text>
-        </View>
-      </Modal>
+    
+      <View style={styles.topRightContainer}>
+        <Text style={{ color: isDarkMode ? "#fff" : "#333", fontSize: 14 }}>
+          {isDarkMode ? "Dark Mode" : "Light Mode"}
+        </Text>
+        <Switch
+          value={isDarkMode}
+          onValueChange={() => setIsDarkMode(!isDarkMode)}
+        />
+      </View>
 
-      {/* Animated Welcome Message
-      <Animatable.Text animation="fadeInDown" duration={1500} style={styles.title}>
-        Welcome! 🚀
-      </Animatable.Text> */}
 
-      {/* Image */}
-      <Image source={require("../../assets/Darbni.jpg")} style={styles.image} />
 
-      {/* Login Button */}
+      {/* <View style={styles.languageSelector}>
+  <TouchableOpacity onPress={() => setLanguage("en")}>
+    <Text style={styles.languageText}> English</Text>
+  </TouchableOpacity>
+  <TouchableOpacity onPress={() => setLanguage("ar")}>
+    <Text style={styles.languageText}>العربية</Text>
+  </TouchableOpacity>
+</View> */}
+
+
+{/*       
+      <Image
+        source={require("../../assets/Darbni.jpg")}
+        style={styles.logoImage}
+        
+      /> */}
+
+<Image source={require("../../assets/Darbni.jpg")} style={styles.image} />
+
+     
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <LinearGradient colors={["#000", "#333"]} style={styles.buttonGradient}>
           <Text style={styles.buttonText}>Login</Text>
         </LinearGradient>
       </TouchableOpacity>
 
-      {/* Social Media Links */}
+     
       <View style={styles.socialContainer}>
-        <TouchableOpacity onPress={() => handleSocialClick("https://abk.eahli.com/en/")} style={styles.iconButton}>
+        <TouchableOpacity
+          onPress={() => handleSocialClick("https://abk.eahli.com/en/")}
+          style={styles.iconButton}
+        >
           <FontAwesome name="globe" size={30} color="#007AFF" />
           <Text style={styles.iconText}>Website</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => handleSocialClick("https://www.instagram.com/abk_kuwait/")} style={styles.iconButton}>
+        <TouchableOpacity
+          onPress={() => handleSocialClick("https://www.instagram.com/abk_kuwait/")}
+          style={styles.iconButton}
+        >
           <FontAwesome name="instagram" size={30} color="#E1306C" />
           <Text style={styles.iconText}>Instagram</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => handleSocialClick("https://twitter.com/abk_kuwait")} style={styles.iconButton}>
+        <TouchableOpacity
+          onPress={() => handleSocialClick("https://twitter.com/abk_kuwait")}
+          style={styles.iconButton}
+        >
           <FontAwesome name="twitter" size={30} color="#1DA1F2" />
           <Text style={styles.iconText}>Twitter</Text>
         </TouchableOpacity>
       </View>
+
+     
+      <TouchableOpacity>
+        <Text style={styles.termsText}>Terms & Conditions | Privacy Policy</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -90,35 +125,32 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
   },
-
-  loadingContainer: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.7)", 
-    justifyContent: "center",
+  topRightContainer: {
+    position: "absolute",
+    top: 50,
+    right: 20,
+    flexDirection: "row",
     alignItems: "center",
+    gap: 10,
   },
-
-  loadingImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 20,
-    resizeMode: "cover",
-    marginBottom: 10,
+//   logoImage: {
+//     width: 150,
+//     height: 150,
+//     borderRadius: 75, 
+//     resizeMode: "cover",
+//     marginBottom: 30,
+//   },
+  button: {
+    width: "90%",
+    borderRadius: 15,
+    overflow: "hidden",
+    marginBottom: 20,
   },
-
-  loadingText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#FFF",
+  buttonGradient: {
+    paddingVertical: 18,
+    alignItems: "center",
+    borderRadius: 15,
   },
-
-  title: {
-    fontSize: 26,
-    fontWeight: "bold",
-    color: "#222",
-    marginBottom: 10,
-  },
-
   image: {
     width: "100%",
     height: 160,
@@ -126,41 +158,31 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     marginBottom: 20,
   },
-
-  button: {
-    width: "90%",
-    borderRadius: 15,
-    overflow: "hidden",
-    marginBottom: 20,
-  },
-
-  buttonGradient: {
-    paddingVertical: 18,
-    alignItems: "center",
-    borderRadius: 15,
-  },
-
   buttonText: {
     color: "#FFF",
     fontSize: 18,
     fontWeight: "bold",
   },
-
   socialContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 10,
   },
-
   iconButton: {
     alignItems: "center",
     marginHorizontal: 15,
   },
-
   iconText: {
     marginTop: 5,
     fontSize: 14,
     fontWeight: "bold",
     color: "#333",
+  },
+  termsText: {
+    marginTop: 15,
+    fontSize: 12,
+    color: "#888",
+    textDecorationLine: "underline",
   },
 });

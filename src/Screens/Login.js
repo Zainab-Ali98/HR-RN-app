@@ -1,114 +1,138 @@
 import React, { useState } from "react";
 import {
-  View,
+  StyleSheet,
   Text,
+  View,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
+  Image,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
+import { FontAwesome } from "@expo/vector-icons";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const navigation = useNavigation();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    console.log("Username:", username);
-    console.log("Password:", password);
+    if (email === "" || password === "") {
+      alert("Please enter your email and password.");
+      return;
+    }
+    navigation.navigate("MainTabs"); 
   };
 
   return (
     <View style={styles.container}>
-      {/* Friendly Welcome Message */}
-      <Text style={styles.title}>Welcome! 🚀</Text>
-      <Text style={styles.subtitle}>Let's sign you in to continue.</Text>
+      
+      <Image source={require("../../assets/Darbni.jpg")} style={styles.logo} />
 
-      {/* Username Input */}
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        placeholderTextColor="#888"
-        value={username}
-        onChangeText={setUsername}
-      />
+      
+      <View style={styles.inputContainer}>
+        <FontAwesome name="envelope" size={20} color="#aaa" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your email"
+          placeholderTextColor="#aaa"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+        />
+      </View>
 
-      {/* Password Input */}
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#888"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+      
+      <View style={styles.inputContainer}>
+        <FontAwesome name="lock" size={24} color="#aaa" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your password"
+          placeholderTextColor="#aaa"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+      </View>
 
-      {/* Login Button */}
+      
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <LinearGradient colors={["#FFDD44", "#FDCB00"]} style={styles.buttonGradient}>
+        <LinearGradient colors={["#000", "#444"]} style={styles.buttonGradient}>
           <Text style={styles.buttonText}>Login</Text>
         </LinearGradient>
       </TouchableOpacity>
+
+      
+      <View style={styles.footerLinks}>
+        {/* <TouchableOpacity>
+          <Text style={styles.linkText}>Forgot password?</Text>
+        </TouchableOpacity> */}
+        {/* <TouchableOpacity>
+          <Text style={styles.linkText}>Sign up</Text>
+        </TouchableOpacity> */}
+      </View>
     </View>
   );
 };
 
+export default Login;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#000", 
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
-    backgroundColor: "#FFF8E1", // Soft warm background
+    paddingHorizontal: 20,
   },
-
-  title: {
-    fontSize: 26,
-    fontWeight: "bold",
-    color: "#222",
-    marginBottom: 5,
-  },
-
-  subtitle: {
-    fontSize: 16,
-    color: "#666",
+  logo: {
+    width: 120,
+    height: 120,
     marginBottom: 30,
-  },
-
-  input: {
-    height: 55,
-    borderWidth: 1,
-    borderColor: "#E0E0E0",
-    backgroundColor: "#FFF",
-    marginBottom: 15,
-    paddingHorizontal: 15,
     borderRadius: 15,
-    width: "90%",
-    fontSize: 16,
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 6,
-    elevation: 3,
   },
-
-  button: {
-    width: "90%",
-    borderRadius: 15,
-    overflow: "hidden",
-    marginTop: 20,
-  },
-
-  buttonGradient: {
-    paddingVertical: 18,
+  inputContainer: {
+    flexDirection: "row",
     alignItems: "center",
-    borderRadius: 15,
+    backgroundColor: "#222",
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    marginBottom: 15,
+    width: "100%",
   },
-
+  icon: {
+    marginRight: 10,
+  },
+  input: {
+    flex: 1,
+    height: 50,
+    fontSize: 16,
+    color: "#fff",
+  },
+  button: {
+    width: "100%",
+    borderRadius: 10,
+    overflow: "hidden",
+    marginBottom: 20,
+  },
+  buttonGradient: {
+    paddingVertical: 15,
+    alignItems: "center",
+    borderRadius: 10,
+  },
   buttonText: {
-    color: "#222",
+    color: "#FFF",
     fontSize: 18,
     fontWeight: "bold",
   },
+  footerLinks: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingHorizontal: 10,
+  },
+  linkText: {
+    color: "#888",
+    fontSize: 14,
+  },
 });
-
-export default Login;
